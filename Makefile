@@ -2,7 +2,12 @@ CFLAGS= -Wall -Wextra -Werror
 LFLAGS= -lsfml-graphics -lsfml-window -lsfml-system
 
 all: main.out
+
+run: all
 	./main.out
+
+clean: 
+	@rm *.o *.exe *.out
 
 main.out: main.cpp tilemap.o game-object.o 
 	g++ $(CFLAGS) main.cpp game-object.o tilemap.o $(LFLAGS) -o main.out
