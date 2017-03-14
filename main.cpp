@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+#include <SFML/Window.hpp>
+
 #include "game-object.hpp"
 #include "tilemap.hpp"
 
@@ -24,6 +26,13 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			player.xspeed = -4;
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			player.xspeed = 4;
+		else
+			player.xspeed = 0;
 
 		player.fall(map, 1);
 
