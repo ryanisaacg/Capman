@@ -26,7 +26,7 @@ bool Tilemap::valid(float x, float y) {
 }
 
 bool Tilemap::free(float x, float y) {
-	return valid(x, y) && get(x, y) != 0;
+	return valid(x, y) && !get(x, y);
 }
 
 bool Tilemap::free(float x, float y, float width, float height) {
