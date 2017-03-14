@@ -17,6 +17,7 @@ int main()
 	Tilemap map(640, 480, 32, 32);
     sf::RenderWindow window(sf::VideoMode(640, 480), "SFML works!");
 	Object player(sf::Color::Cyan, 100, 100, 10);
+	sf::Clock clock;
 
     while (window.isOpen())
     {
@@ -33,14 +34,20 @@ int main()
 			player.xspeed = 4;
 		else
 			player.xspeed = 0;
+		
+		player.fall(map, 0.5);
 
-		player.fall(map, 1);
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) && player.supported(map))
+			player.yspeed = -16;
 
         window.clear();
 		draw_object(window, player);
         window.display();
 
-		sf::sleep(sf::milliseconds(16));
+		sf::Time sleepTime = sf::milliseconds(16) - clock.getElapsedTime();
+		if(sleepTime > sf::milliseconds(1))
+			sf::sleep(sleepTime);
+		clock.restart();
     }
 
     return 0;
