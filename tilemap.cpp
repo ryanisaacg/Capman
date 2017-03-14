@@ -43,3 +43,11 @@ bool Tilemap::free(float x, float y, float width, float height) {
 				return false;
 	return true;
 }
+
+int Tilemap::getWidth() {
+	return width;
+}
+
+int Tilemap::getHeight() {
+	return height;
+}
