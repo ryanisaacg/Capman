@@ -27,7 +27,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(640, 480), "SFML works!");
 	Object player(sf::Color::Cyan, 100, 100, 10);
 	sf::Clock clock;
-	std::vector<Object> pellets;
+	std::vector<Object> pellets, ghostPellets;
 
 	spawn_pellets(map, pellets);
 
@@ -54,15 +54,26 @@ int main()
 
 		for(auto pellet = pellets.begin(); pellet < pellets.end(); pellet++) {
 			if(pellet->collides(player)) {
+				ghostPellets.push_back(Object(sf::Color::Yellow, pellet->x, pellet->y, pellet->radius * 2));
 				pellet = pellets.erase(pellet);
 			}
 		}
-
-        window.clear();
+		for(auto ghost = ghostPellets.begin(); ghost < ghostPellets.end(); ghost++) {
+			if(ghost->radius <= 0) {
+				ghost = ghostPellets.erase(ghost);
+			} else {
+				ghost->radius -= 0.5;
+				ghost->color.a -= 10;
+			}
+		}
+		
+		window.clear();
 		for(auto pellet : pellets)
 			draw_object(window, pellet);
+		for(auto ghost : ghostPellets)
+			draw_object(window, ghost);
 		draw_object(window, player);
-        window.display();
+		window.display();
 
 		sf::Time sleepTime = sf::milliseconds(16) - clock.getElapsedTime();
 		if(sleepTime > sf::milliseconds(1))
