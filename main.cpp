@@ -50,7 +50,13 @@ int main()
 		player.fall(map, 0.5);
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) && player.supported(map))
-			player.yspeed = -16;
+			player.yspeed = -12;
+
+		for(auto pellet = pellets.begin(); pellet < pellets.end(); pellet++) {
+			if(pellet->collides(player)) {
+				pellet = pellets.erase(pellet);
+			}
+		}
 
         window.clear();
 		for(auto pellet : pellets)
