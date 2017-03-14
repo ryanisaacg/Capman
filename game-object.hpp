@@ -8,6 +8,7 @@ public:
 	Object(sf::Color color, float x, float y, float radius);
 	void fall(Tilemap map, float gravity);
 	void move(Tilemap map);
+	bool supported(Tilemap map);
 	sf::Color color;
 	float x, y, radius, xspeed, yspeed;
 private:

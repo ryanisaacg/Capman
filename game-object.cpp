@@ -34,6 +34,10 @@ void Object::move(Tilemap map) {
 	}
 }
 
+bool Object::supported(Tilemap map) {
+	return !can_move(map, 0, 1);
+}
+
 bool Object::can_move(Tilemap map, float xoff, float yoff) {
 	return map.free(x - radius + xoff, y - radius + yoff, radius * 2, radius * 2);
 }
