@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
+#include <string>
 #include <vector>
 
 #include "game-object.hpp"
@@ -24,10 +25,17 @@ void spawn_pellets(Tilemap map, std::vector<Object> &pellets) {
 int main()
 {
 	Tilemap map(640, 480, 32, 32);
-    sf::RenderWindow window(sf::VideoMode(640, 480), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(640, 520), "SFML works!");
 	Object player(sf::Color::Cyan, 100, 100, 10);
 	sf::Clock clock;
 	std::vector<Object> pellets, ghostPellets;
+	sf::Font font;
+	font.loadFromFile("arial.ttf");
+	sf::Text scoreDisplay("", font);
+	scoreDisplay.setOutlineColor(sf::Color::Yellow);
+	scoreDisplay.setFillColor(sf::Color::White);
+	scoreDisplay.setOutlineThickness(0.5);
+	int score = 0;
 
 	spawn_pellets(map, pellets);
 
@@ -56,6 +64,9 @@ int main()
 			if(pellet->collides(player)) {
 				ghostPellets.push_back(Object(sf::Color::Yellow, pellet->x, pellet->y, pellet->radius * 2));
 				pellet = pellets.erase(pellet);
+				score++;
+				scoreDisplay.setString(std::to_string(score));
+				scoreDisplay.setPosition(320 - scoreDisplay.getLocalBounds().width / 2, 0);
 			}
 		}
 		for(auto ghost = ghostPellets.begin(); ghost < ghostPellets.end(); ghost++) {
@@ -67,12 +78,18 @@ int main()
 			}
 		}
 		
+
 		window.clear();
+		sf::View view(sf::FloatRect(0, 40, 640, 480));
+		view.setViewport(sf::FloatRect(0, 40 / 520.0f, 1, 1));
+		window.setView(view);
 		for(auto pellet : pellets)
 			draw_object(window, pellet);
 		for(auto ghost : ghostPellets)
 			draw_object(window, ghost);
 		draw_object(window, player);
+		window.setView(window.getDefaultView());
+		window.draw(scoreDisplay);
 		window.display();
 
 		sf::Time sleepTime = sf::milliseconds(16) - clock.getElapsedTime();
