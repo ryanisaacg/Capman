@@ -9,6 +9,7 @@ public:
 	void fall(Tilemap map, float gravity);
 	void move(Tilemap map);
 	bool supported(Tilemap map);
+	bool collides(Object other);
 	sf::Color color;
 	float x, y, radius, xspeed, yspeed;
 private:
