@@ -3,8 +3,8 @@
 #include <cmath>
 #include <iostream>
 
-Object::Object(sf::Color color, float x, float y, float radius) :
-	color(color), x(x), y(y), radius(radius), xspeed(0), yspeed(0) {}
+Object::Object(sf::Color color, float x, float y, float radius, float scale ) :
+	color(color), x(x), y(y), radius(radius), xspeed(0), yspeed(0), draw_scale(scale) {}
 
 void Object::fall(Tilemap map, float gravity) {
 	yspeed += gravity;
