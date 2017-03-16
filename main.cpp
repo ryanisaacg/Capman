@@ -18,13 +18,16 @@ void draw_object(sf::RenderWindow &window, Object obj) {
 void spawn_pellets(Tilemap map, std::vector<Object> &pellets) {
 	for(int i = 0; i < map.getWidth(); i += 32) 
 		for(int j = 0; j < map.getHeight(); j += 32) 
-			if(map.free(i, j))
+			if(map.free(i, j)) {
 				pellets.push_back(Object(sf::Color::White, i + 16, j + 16, 6, 0.5f));
+			}
 }
 
 int main()
 {
 	Tilemap map(640, 480, 32, 32);
+	for(int i = 33; i < map.getWidth(); i++)
+		map.set(100, i, 400); 
     sf::RenderWindow window(sf::VideoMode(640, 520), "SFML works!");
 	Object player(sf::Color::Cyan, 100, 100, 10);
 	sf::Clock clock;
@@ -62,7 +65,7 @@ int main()
 
 		for(auto pellet = pellets.begin(); pellet < pellets.end(); pellet++) {
 			if(pellet->collides(player)) {
-				ghostPellets.push_back(Object(sf::Color::Yellow, pellet->x, pellet->y, pellet->radius * 2));
+				ghostPellets.push_back(Object(sf::Color::Yellow, player.x, player.y, pellet->radius * 2));
 				pellet = pellets.erase(pellet);
 				score++;
 				scoreDisplay.setString(std::to_string(score));
@@ -83,6 +86,16 @@ int main()
 		sf::View view(sf::FloatRect(0, 40, 640, 480));
 		view.setViewport(sf::FloatRect(0, 40 / 520.0f, 1, 1));
 		window.setView(view);
+		for(int x = 0; x < map.getWidth(); x += 32) {
+			for(int y = 0; y < map.getHeight(); y += 32) {
+				if(map.get(x, y)) {
+					sf::RectangleShape rect(sf::Vector2f(32, 32));
+					rect.setPosition(x, y);
+					rect.setFillColor(sf::Color::Magenta);
+					window.draw(rect);
+				}
+			}
+		}
 		for(auto pellet : pellets)
 			draw_object(window, pellet);
 		for(auto ghost : ghostPellets)
