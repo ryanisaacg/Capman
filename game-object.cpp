@@ -31,6 +31,9 @@ void Object::move(Tilemap map) {
 			y += yspeed;
 			xspeed = 0;
 		}
+	} else {
+		xspeed = 0;
+		yspeed = 0;
 	}
 }
 
