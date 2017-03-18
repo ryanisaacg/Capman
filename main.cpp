@@ -60,7 +60,7 @@ int main() {
 	scoreDisplay.setOutlineColor(sf::Color::Yellow);
 	scoreDisplay.setFillColor(sf::Color::White);
 	scoreDisplay.setOutlineThickness(0.5);
-	int score = 0, health = 3;
+	int score = 0, health = 3, hurt_cooldown = 0, max_hurt_cooldown = 120;
 
 	load_level("level1", player, enemies, map);
 	spawn_pellets(map, pellets);
@@ -112,11 +112,16 @@ int main() {
 			} else if(enemy.x > player.x) {
 				enemy.xspeed = -2;
 			}
-			if(enemy.yspeed < 8 && enemy.y > player.y - 4) {
+			if(enemy.yspeed < 8 && enemy.y > player.y) {
 				enemy.yspeed = -4;
 			}
 			enemy.fall(map, 0.25);
+			if(hurt_cooldown == 0 && enemy.collides(player)) {
+				hurt_cooldown = max_hurt_cooldown;
+				health -= 1;
+			}
 		}
+		if(hurt_cooldown > 0) hurt_cooldown--;
 		//Render the game
 		render_state(window, map, player, enemies, pellets, ghostPellets, scoreDisplay, health);
 		//Handle frame timing
