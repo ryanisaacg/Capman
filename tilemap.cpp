@@ -35,7 +35,6 @@ bool Tilemap::free(float x, float y, float width, float height) {
 	int lowestY = (int)(y / tile_height);
 	int highestX = (int)((x + width) / tile_height + 0.5f);
 	int highestY = (int)((y + height) / tile_height + 0.5f);
-	std::cout << (highestY - lowestY) << std::endl;
 	if(!valid(x, y) || !valid(x + width, y + height)) {
 		return false;
 	}
