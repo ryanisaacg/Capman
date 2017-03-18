@@ -60,7 +60,7 @@ int main() {
 	scoreDisplay.setOutlineColor(sf::Color::Yellow);
 	scoreDisplay.setFillColor(sf::Color::White);
 	scoreDisplay.setOutlineThickness(0.5);
-	int score = 0;
+	int score = 0, health = 3;
 
 	load_level("level1", player, enemies, map);
 	spawn_pellets(map, pellets);
@@ -118,7 +118,7 @@ int main() {
 			enemy.fall(map, 0.25);
 		}
 		//Render the game
-		render_state(window, map, player, enemies, pellets, ghostPellets, scoreDisplay);
+		render_state(window, map, player, enemies, pellets, ghostPellets, scoreDisplay, health);
 		//Handle frame timing
 		sf::Time sleepTime = sf::milliseconds(16) - clock.getElapsedTime();
 		if(sleepTime > sf::milliseconds(1))

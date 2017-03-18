@@ -7,4 +7,4 @@
 #include "tilemap.hpp"
 
 void render_state(sf::RenderWindow &window, Tilemap map, Object player, std::vector<Object> enemies, 
-		std::vector<Object> pellets, std::vector<Object> ghostPellets, sf::Text &score);
+		std::vector<Object> pellets, std::vector<Object> ghostPellets, sf::Text &score, int health);

@@ -2,7 +2,7 @@
 #include "main.hpp"
 
 void render_state(sf::RenderWindow &window, Tilemap map, Object player, std::vector<Object> enemies, 
-		std::vector<Object> pellets, std::vector<Object> ghostPellets, sf::Text &scoreDisplay) {
+		std::vector<Object> pellets, std::vector<Object> ghostPellets, sf::Text &scoreDisplay, int health) {
 	window.clear();
 	sf::View view(sf::FloatRect(0, 40, game_width, game_height));
 	view.setViewport(sf::FloatRect(0, 40.0f / window_height, 1, 1));
@@ -26,5 +26,11 @@ void render_state(sf::RenderWindow &window, Tilemap map, Object player, std::vec
 	player.draw(window);
 	window.setView(window.getDefaultView());
 	window.draw(scoreDisplay);
+	for(int i = 0; i < health; i++) {
+		sf::CircleShape circ(8);
+		circ.setPosition(i * 20 + 16, 16);
+		circ.setFillColor(sf::Color::Cyan);
+		window.draw(circ);
+	}
 	window.display();
 }
