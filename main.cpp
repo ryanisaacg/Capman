@@ -71,7 +71,7 @@ int main() {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
+		//Walk
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			player.xspeed = -4;
 		} else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
@@ -80,10 +80,10 @@ int main() {
 			player.xspeed = 0;
 		}
 		player.fall(map, 0.5);
-
+		//Jump
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) && player.supported(map))
 			player.yspeed = -12;
-
+		//Update all of the pellets
 		for(auto pellet = pellets.begin(); pellet < pellets.end(); pellet++) {
 			if(pellet->collides(player)) {
 				ghostPellets.push_back(Object(sf::Color::Yellow, player.x, player.y, pellet->radius * 2));
@@ -93,6 +93,7 @@ int main() {
 				scoreDisplay.setPosition(window_width / 2 - scoreDisplay.getLocalBounds().width / 2, 0);
 			}
 		}
+		//Update the ghost pellet effect
 		for(auto ghost = ghostPellets.begin(); ghost < ghostPellets.end(); ghost++) {
 			if(ghost->radius <= 0) {
 				ghost = ghostPellets.erase(ghost);
@@ -101,6 +102,7 @@ int main() {
 				ghost->color.a -= 10;
 			}
 		}
+		//Move the enemies towards the player
 		for(auto &enemy : enemies) {
 			if(abs(enemy.x - player.x) < 2) {
 				enemy.x = player.x;
@@ -115,14 +117,13 @@ int main() {
 			}
 			enemy.fall(map, 0.25);
 		}
-		
+		//Render the game
 		render_state(window, map, player, enemies, pellets, ghostPellets, scoreDisplay);
-
+		//Handle frame timing
 		sf::Time sleepTime = sf::milliseconds(16) - clock.getElapsedTime();
 		if(sleepTime > sf::milliseconds(1))
 			sf::sleep(sleepTime);
 		clock.restart();
     }
-
     return 0;
 }
