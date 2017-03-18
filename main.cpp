@@ -8,13 +8,10 @@
 #include <vector>
 
 #include "game-object.hpp"
+#include "main.hpp"
+#include "render.hpp"
 #include "tilemap.hpp"
 
-const int game_width = 640;
-const int game_height = 480;
-
-const int window_width = 640;
-const int window_height = 520;
 
 void load_level(std::string filename, Object &playerOut, std::vector<Object> &enemiesOut, Tilemap &mapOut) {
 	std::ifstream input(filename);
@@ -42,13 +39,6 @@ void load_level(std::string filename, Object &playerOut, std::vector<Object> &en
 		y += 32;
 	}
 	input.close();
-}
-
-void draw_object(sf::RenderWindow &window, Object obj) {
-	sf::CircleShape shape(obj.radius * obj.draw_scale);
-	shape.setPosition(obj.x, obj.y);
-	shape.setFillColor(obj.color);
-	window.draw(shape);
 }
 
 void spawn_pellets(Tilemap map, std::vector<Object> &pellets) {
@@ -126,31 +116,7 @@ int main() {
 			enemy.fall(map, 0.25);
 		}
 		
-
-		window.clear();
-		sf::View view(sf::FloatRect(0, 40, game_width, game_height));
-		view.setViewport(sf::FloatRect(0, 40.0f / window_height, 1, 1));
-		window.setView(view);
-		for(int x = 0; x < map.getWidth(); x += 32) {
-			for(int y = 0; y < map.getHeight(); y += 32) {
-				if(map.get(x, y)) {
-					sf::RectangleShape rect(sf::Vector2f(32, 32));
-					rect.setPosition(x, y);
-					rect.setFillColor(sf::Color::Magenta);
-					window.draw(rect);
-				}
-			}
-		}
-		for(auto pellet : pellets)
-			draw_object(window, pellet);
-		for(auto ghost : ghostPellets)
-			draw_object(window, ghost);
-		for(auto enemy : enemies)
-			draw_object(window, enemy);
-		draw_object(window, player);
-		window.setView(window.getDefaultView());
-		window.draw(scoreDisplay);
-		window.display();
+		render_state(window, map, player, enemies, pellets, ghostPellets, scoreDisplay);
 
 		sf::Time sleepTime = sf::milliseconds(16) - clock.getElapsedTime();
 		if(sleepTime > sf::milliseconds(1))

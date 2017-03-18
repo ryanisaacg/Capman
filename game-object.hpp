@@ -11,6 +11,7 @@ public:
 	void move(Tilemap map);
 	bool supported(Tilemap map);
 	bool collides(Object other);
+	void draw(sf::RenderWindow &window);
 	sf::Color color;
 	float x, y, radius, xspeed, yspeed, draw_scale;
 private:

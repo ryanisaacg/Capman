@@ -3,7 +3,8 @@
 #include <cmath>
 #include <iostream>
 
-Object(const Object &obj) : color(obj.color), x(obj.x), y(obj.y), radius(obj.radius), xspeed(obj.xspeed), yspeed(obj.yspeed), draw_scale(obj.draw_scale) {}
+Object::Object(const Object &obj) : 
+	color(obj.color), x(obj.x), y(obj.y), radius(obj.radius), xspeed(obj.xspeed), yspeed(obj.yspeed), draw_scale(obj.draw_scale) {}
 
 Object::Object(sf::Color color, float x, float y, float radius, float scale ) :
 	color(color), x(x), y(y), radius(radius), xspeed(0), yspeed(0), draw_scale(scale) {}
@@ -52,4 +53,11 @@ bool Object::collides(Object other) {
 
 bool Object::can_move(Tilemap map, float xoff, float yoff) {
 	return map.free(x - radius + xoff, y - radius + yoff, radius * 2, radius * 2);
+}
+
+void Object::draw(sf::RenderWindow &window) {
+	sf::CircleShape shape(radius * draw_scale);
+	shape.setPosition(x, y);
+	shape.setFillColor(color);
+	window.draw(shape);
 }
