@@ -23,8 +23,7 @@ void spawn_pellets(Tilemap map, std::vector<Object> &pellets) {
 			}
 }
 
-int main()
-{
+int main() {
 	Tilemap map(640, 480, 32, 32);
 	for(int i = 33; i < map.getWidth(); i++)
 		map.set(100, i, 400); 
@@ -42,22 +41,20 @@ int main()
 
 	spawn_pellets(map, pellets);
 
-    while (window.isOpen())
-    {
+    while (window.isOpen()) {
         sf::Event event;
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
 
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			player.xspeed = -4;
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		} else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			player.xspeed = 4;
-		else
+		} else {
 			player.xspeed = 0;
-		
+		}
 		player.fall(map, 0.5);
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) && player.supported(map))
