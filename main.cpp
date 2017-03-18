@@ -1,3 +1,4 @@
+#include <cmath>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -30,7 +31,7 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(640, 520), "SFML works!");
 	Object player(sf::Color::Cyan, 100, 100, 10);
 	sf::Clock clock;
-	std::vector<Object> pellets, ghostPellets;
+	std::vector<Object> pellets, ghostPellets, enemies;
 	sf::Font font;
 	font.loadFromFile("arial.ttf");
 	sf::Text scoreDisplay("", font);
@@ -40,6 +41,7 @@ int main() {
 	int score = 0;
 
 	spawn_pellets(map, pellets);
+	enemies.push_back(Object(sf::Color::Red, 200, 90, 10));
 
     while (window.isOpen()) {
         sf::Event event;
@@ -77,6 +79,20 @@ int main() {
 				ghost->color.a -= 10;
 			}
 		}
+		for(auto &enemy : enemies) {
+			if(abs(enemy.x - player.x) < 2) {
+				enemy.x = player.x;
+				enemy.xspeed = 0;
+			} else if(enemy.x < player.x) {
+				enemy.xspeed = 2;
+			} else if(enemy.x > player.x) {
+				enemy.xspeed = -2;
+			}
+			if(enemy.yspeed < 8 && enemy.y > player.y - 4) {
+				enemy.yspeed = -4;
+			}
+			enemy.fall(map, 0.25);
+		}
 		
 
 		window.clear();
@@ -97,6 +113,8 @@ int main() {
 			draw_object(window, pellet);
 		for(auto ghost : ghostPellets)
 			draw_object(window, ghost);
+		for(auto enemy : enemies)
+			draw_object(window, enemy);
 		draw_object(window, player);
 		window.setView(window.getDefaultView());
 		window.draw(scoreDisplay);
