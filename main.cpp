@@ -19,9 +19,8 @@ void draw_object(sf::RenderWindow &window, Object obj) {
 void spawn_pellets(Tilemap map, std::vector<Object> &pellets) {
 	for(int i = 0; i < map.getWidth(); i += 32) 
 		for(int j = 0; j < map.getHeight(); j += 32) 
-			if(map.free(i, j)) {
+			if(map.free(i, j))
 				pellets.push_back(Object(sf::Color::White, i + 16, j + 16, 6, 0.5f));
-			}
 }
 
 int main() {
