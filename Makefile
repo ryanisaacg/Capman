@@ -1,4 +1,4 @@
-CFLAGS= -Wall -Wextra -Werror -g
+CFLAGS= -Wall -Wextra -Werror -g -std=c++11
 LFLAGS= -lsfml-graphics -lsfml-window -lsfml-system
 
 all: main.out
