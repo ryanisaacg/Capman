@@ -5,6 +5,7 @@
 
 struct Object {
 public:
+	Object(const Object &obj);
 	Object(sf::Color color, float x, float y, float radius, float scale = 1);
 	void fall(Tilemap map, float gravity);
 	void move(Tilemap map);
