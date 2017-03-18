@@ -1,4 +1,5 @@
 #include <cmath>
+#include <fstream>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -8,6 +9,40 @@
 
 #include "game-object.hpp"
 #include "tilemap.hpp"
+
+const int game_width = 640;
+const int game_height = 480;
+
+const int window_width = 640;
+const int window_height = 520;
+
+void load_level(std::string filename, Object &playerOut, std::vector<Object> &enemiesOut, Tilemap &mapOut) {
+	std::ifstream input(filename);
+	int y = 0;
+	while(!input.eof()) {
+		std::string line;
+		getline(input, line);
+		for(unsigned int i = 0; i < line.size(); i++) {
+			int x = i * 32;
+			switch(line[i]) {
+				case 'P':
+				case 'p':
+					playerOut = Object(sf::Color::Cyan, x, y, 10);
+					break;
+				case 'W':
+				case 'w':
+					mapOut.set(1, x, y);
+					break;
+				case 'E':
+				case 'e':
+					enemiesOut.push_back(Object(sf::Color::Red, x, y, 10));
+					break;
+			}
+		}
+		y += 32;
+	}
+	input.close();
+}
 
 void draw_object(sf::RenderWindow &window, Object obj) {
 	sf::CircleShape shape(obj.radius * obj.draw_scale);
@@ -24,11 +59,9 @@ void spawn_pellets(Tilemap map, std::vector<Object> &pellets) {
 }
 
 int main() {
-	Tilemap map(640, 480, 32, 32);
-	for(int i = 33; i < map.getWidth(); i++)
-		map.set(100, i, 400); 
-    sf::RenderWindow window(sf::VideoMode(640, 520), "SFML works!");
-	Object player(sf::Color::Cyan, 100, 100, 10);
+	Tilemap map(game_width, game_height, 32, 32);
+    sf::RenderWindow window(sf::VideoMode(window_width, window_height), "SFML works!");
+	Object player(sf::Color::Cyan, 0, 0, 10);
 	sf::Clock clock;
 	std::vector<Object> pellets, ghostPellets, enemies;
 	sf::Font font;
@@ -39,8 +72,8 @@ int main() {
 	scoreDisplay.setOutlineThickness(0.5);
 	int score = 0;
 
+	load_level("level1", player, enemies, map);
 	spawn_pellets(map, pellets);
-	enemies.push_back(Object(sf::Color::Red, 200, 90, 10));
 
     while (window.isOpen()) {
         sf::Event event;
@@ -67,7 +100,7 @@ int main() {
 				pellet = pellets.erase(pellet);
 				score++;
 				scoreDisplay.setString(std::to_string(score));
-				scoreDisplay.setPosition(320 - scoreDisplay.getLocalBounds().width / 2, 0);
+				scoreDisplay.setPosition(window_width / 2 - scoreDisplay.getLocalBounds().width / 2, 0);
 			}
 		}
 		for(auto ghost = ghostPellets.begin(); ghost < ghostPellets.end(); ghost++) {
@@ -95,8 +128,8 @@ int main() {
 		
 
 		window.clear();
-		sf::View view(sf::FloatRect(0, 40, 640, 480));
-		view.setViewport(sf::FloatRect(0, 40 / 520.0f, 1, 1));
+		sf::View view(sf::FloatRect(0, 40, game_width, game_height));
+		view.setViewport(sf::FloatRect(0, 40.0f / window_height, 1, 1));
 		window.setView(view);
 		for(int x = 0; x < map.getWidth(); x += 32) {
 			for(int y = 0; y < map.getHeight(); y += 32) {
