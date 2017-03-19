@@ -10,6 +10,7 @@ public:
 	void fall(Tilemap map, float gravity);
 	void move(Tilemap map);
 	bool supported(Tilemap map);
+	bool contains(int x, int y);
 	bool collides(Object other);
 	void draw(sf::RenderWindow &window);
 	sf::Color color;

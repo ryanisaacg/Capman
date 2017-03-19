@@ -44,6 +44,12 @@ bool Object::supported(Tilemap map) {
 	return !can_move(map, 0, 1);
 }
 	
+bool Object::contains(int px, int py) {
+	float dx = x - px;
+	float dy = y - py;
+	return (dx * dx + dy * dy) <= radius * radius;
+}
+	
 bool Object::collides(Object other) {
 	float radiusSum = radius + other.radius;
 	float dx = x - other.x;
