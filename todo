@@ -1,0 +1,11 @@
+- Add a changeable list of level loading
+- Add a level success state
+- Add a level restart on three deaths
+- Add an ability to fight back against enemies
+- Decrease enemy agility
+- Add a subtle sound for pellet collection
+- Add a backing soundtrack
+- Fix very odd collision bug (square player and enemy?)
+- Create a start screen 
+- Create static distribution builds for Windows and Linux
+- Create an Emscipten build for the web
