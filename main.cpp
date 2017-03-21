@@ -177,7 +177,12 @@ int main() {
 					save_level(save_name, player, enemies, map); 
 					save_name = "";
 				} else if(event.type == sf::Event::TextEntered) {
-					save_name += event.text.unicode;
+					if(event.text.unicode != 8) {
+						save_name += event.text.unicode;
+					} else {
+						save_name = save_name.substr(0, save_name.size() - 1);
+					}
+					scoreDisplay.setString(save_name);
 				}
 			} else {
 				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::E)
