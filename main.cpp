@@ -24,23 +24,46 @@ void load_level(std::string filename, Object &playerOut, std::vector<Object> &en
 		for(unsigned int i = 0; i < line.size(); i++) {
 			int x = i * 32;
 			switch(line[i]) {
-				case 'P':
-				case 'p':
-					playerOut = Object(sf::Color::Cyan, x, y, 10);
-					break;
-				case 'W':
-				case 'w':
-					mapOut.set(1, x, y);
-					break;
-				case 'E':
-				case 'e':
-					enemiesOut.push_back(Object(sf::Color::Red, x, y, 10));
-					break;
+			case 'P':
+			case 'p':
+				playerOut = Object(sf::Color::Cyan, x, y, 10);
+				break;
+			case 'W':
+			case 'w':
+				mapOut.set(1, x, y);
+				break;
+			case 'E':
+			case 'e':
+				enemiesOut.push_back(Object(sf::Color::Red, x, y, 10));
+				break;
 			}
 		}
 		y += 32;
 	}
 	input.close();
+}
+
+void save_level(std::string filename, Object playerOut, std::vector<Object> enemies, Tilemap map) {
+	std::ofstream output(filename);
+	for(int y = 0; y < map.getHeight(); y += 32) {
+		for(int x = 0; x < map.getWidth(); x += 32) {
+			char out = ' ';
+			if(!map.free(x, y)) {
+				out = 'w';
+			} else if(playerOut.contains(x, y)) {
+				out = 'p';
+			} else {
+				for(auto enemy : enemies) {
+					if(enemy.contains(x, y)) {
+						out = 'e';
+						break;
+					}
+				}
+			}
+			output << out;
+		}
+		output << std::endl;
+	}
 }
 
 void spawn_pellets(Tilemap map, std::vector<Object> &pellets) {
@@ -137,18 +160,31 @@ int main() {
 	scoreDisplay.setOutlineThickness(0.5);
 	bool editing = false;
 	bool previous_switch = false;
+	bool saving = false;
+	std::string save_name = "";
 
-	load_level("level1", player, enemies, map);
+	load_level("stest", player, enemies, map);
 	spawn_pellets(map, pellets);
 
     while (window.isOpen()) {
         sf::Event event;
 		bool justPressedE = false;
-        while (window.pollEvent(event)) {	
+        while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::E)
-				justPressedE = true;
+			if(saving) {
+				if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::Return) {
+					save_level(save_name, player, enemies, map); 
+					save_name = "";
+				} else if(event.type == sf::Event::TextEntered) {
+					save_name += event.text.unicode;
+				}
+			} else {
+				if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::E)
+					justPressedE = true;
+				if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::S) 
+					saving = true;
+			}
         }
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp)) {
 			if(!previous_switch) { 
