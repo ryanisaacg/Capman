@@ -176,6 +176,7 @@ int main() {
 				if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::Return) {
 					save_level(save_name, player, enemies, map); 
 					save_name = "";
+					saving = false;
 				} else if(event.type == sf::Event::TextEntered) {
 					if(event.text.unicode != 8) {
 						save_name += event.text.unicode;
