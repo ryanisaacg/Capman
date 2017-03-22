@@ -126,6 +126,7 @@ int main() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
+			if (!window.hasFocus()) continue;
 			if(saving) {
 				if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::Return) {
 					save_level(save_name, player, enemies, map); 
