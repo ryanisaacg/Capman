@@ -63,7 +63,7 @@ bool Object::can_move(Tilemap map, float xoff, float yoff) {
 
 void Object::draw(sf::RenderWindow &window) {
 	sf::CircleShape shape(radius * draw_scale);
-	shape.setPosition(x, y);
+	shape.setPosition(x - radius, y - radius);
 	shape.setFillColor(color);
 	window.draw(shape);
 }
