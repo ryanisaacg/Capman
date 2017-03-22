@@ -19,7 +19,7 @@ int score = 0, health = 3, hurt_cooldown = 0, max_hurt_cooldown = 120;
 void spawn_pellets(Tilemap map, std::vector<Object> &pellets) {
 	for(int i = 0; i < map.getWidth(); i += 32) 
 		for(int j = 0; j < map.getHeight(); j += 32) 
-			if(map.free(i, j))
+			if(map.free(i, j) && rand() < RAND_MAX / 7)
 				pellets.push_back(Object(sf::Color::White, i + 16, j + 16, 6, 0.5f));
 }
 
