@@ -151,7 +151,7 @@ int main() {
 	std::vector<Object> pellets, ghostPellets, enemies;
     sf::RenderWindow window(sf::VideoMode(window_width, window_height), "CapMan");
 	window.setKeyRepeatEnabled(false);
-	sf::Clock clock;
+	window.setFramerateLimit(60);
 	sf::Font font;
 	font.loadFromFile("arial.ttf");
 	scoreDisplay = sf::Text("", font);
@@ -209,11 +209,6 @@ int main() {
 		}
 		//Render the game
 		render_state(window, map, player, enemies, pellets, ghostPellets, scoreDisplay, health);
-		//Handle frame timing
-		sf::Time sleepTime = sf::milliseconds(16) - clock.getElapsedTime();
-		if(sleepTime > sf::milliseconds(1))
-			sf::sleep(sleepTime);
-		clock.restart();
     }
     return 0;
 }
