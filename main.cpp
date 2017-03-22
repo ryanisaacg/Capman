@@ -113,6 +113,9 @@ int main() {
 	bool saving = false;
 	std::string save_name = "";
 	std::vector<std::string> level_names = load_level_list();
+	unsigned int level_index = 0;
+
+	srand(time(nullptr));
 
 	load_level(level_names[0], player, enemies, map);
 	spawn_pellets(map, pellets);
@@ -160,6 +163,17 @@ int main() {
 		}
 		//Render the game
 		render_state(window, map, player, enemies, pellets, ghostPellets, scoreDisplay, health);
+
+		if(pellets.empty()) {
+			level_index++;
+			if(level_index >= level_names.size()) {
+				load_level(level_names[level_index], player, enemies, map);
+				spawn_pellets(map, pellets);
+			} else {
+				scoreDisplay.setString("You Win!");
+			}
+		}
+
     }
     return 0;
 }
