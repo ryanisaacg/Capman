@@ -149,7 +149,7 @@ int main() {
 	Tilemap map(game_width, game_height, 32, 32);
 	Object player(sf::Color::Cyan, 0, 0, 16);
 	std::vector<Object> pellets, ghostPellets, enemies;
-    sf::RenderWindow window(sf::VideoMode(window_width, window_height), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(window_width, window_height), "CapMan");
 	window.setKeyRepeatEnabled(false);
 	sf::Clock clock;
 	sf::Font font;
