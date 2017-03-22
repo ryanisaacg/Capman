@@ -14,7 +14,7 @@ std::vector<std::string> load_level_list() {
 }
 
 
-void load_level(std::string filename, Object &playerOut, std::vector<Object> &enemiesOut, Tilemap &mapOut) {
+void load_level(std::string filename, Object &playerOut, std::vector<Object> &enemiesOut, Tilemap &mapOut, int &health) {
 	std::ifstream input(filename);
 	int y = 0;
 	while(!input.eof()) {
@@ -39,6 +39,7 @@ void load_level(std::string filename, Object &playerOut, std::vector<Object> &en
 		}
 		y += 32;
 	}
+	health = 3;
 	input.close();
 }
 

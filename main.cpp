@@ -117,7 +117,7 @@ int main() {
 
 	srand(time(nullptr));
 
-	load_level(level_names[0], player, enemies, map);
+	load_level(level_names[0], player, enemies, map, health);
 	spawn_pellets(map, pellets);
 
     while (window.isOpen()) {
@@ -168,7 +168,7 @@ int main() {
 		if(pellets.empty()) {
 			level_index++;
 			if(level_index >= level_names.size()) {
-				load_level(level_names[level_index], player, enemies, map);
+				load_level(level_names[level_index], player, enemies, map, health);
 				spawn_pellets(map, pellets);
 			} else {
 				scoreDisplay.setString("You Win!");
