@@ -9,7 +9,7 @@ run: all
 clean: 
 	@rm *.o *.exe *.out
 
-main.out: main.cpp tilemap.o game-object.o render.o
+main.out: main.cpp tilemap.o game-object.o render.o level.o
 	g++ $(CFLAGS) main.cpp render.o game-object.o tilemap.o level.o $(LFLAGS) -o main.out
 
 game-object.o: game-object.cpp game-object.hpp tilemap.o
