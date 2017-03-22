@@ -88,7 +88,7 @@ static void edit(sf::Window &window, Tilemap map, Object &player, std::vector<Ob
 		player.y = mouse_pos.y;
 	}
 	if(justPressedE)
-		enemies.push_back(Object(sf::Color::Red, mouse_pos.x, mouse_pos.y, 10));
+		enemies.push_back(Object(sf::Color::Red, mouse_pos.x, mouse_pos.y, 16));
 }
 
 static void update(Tilemap map, Object &player, std::vector<Object> &pellets, std::vector<Object> &ghostPellets, std::vector<Object> &enemies) {
@@ -147,7 +147,7 @@ static void update(Tilemap map, Object &player, std::vector<Object> &pellets, st
 
 int main() {
 	Tilemap map(game_width, game_height, 32, 32);
-	Object player(sf::Color::Cyan, 0, 0, 10);
+	Object player(sf::Color::Cyan, 0, 0, 16);
 	std::vector<Object> pellets, ghostPellets, enemies;
     sf::RenderWindow window(sf::VideoMode(window_width, window_height), "SFML works!");
 	window.setKeyRepeatEnabled(false);
