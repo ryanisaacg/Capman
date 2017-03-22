@@ -15,6 +15,18 @@
 sf::Text scoreDisplay;	
 int score = 0, health = 3, hurt_cooldown = 0, max_hurt_cooldown = 120;
 
+std::vector<std::string> load_level_list() {
+	std::ifstream input("levels");
+	std::vector<std::string> levels;
+	while(!input.eof()) {
+		std::string next;
+		getline(input, next);
+		levels.push_back(next);
+	}
+	return levels;
+}
+
+
 void load_level(std::string filename, Object &playerOut, std::vector<Object> &enemiesOut, Tilemap &mapOut) {
 	std::ifstream input(filename);
 	int y = 0;
@@ -162,8 +174,9 @@ int main() {
 	bool previous_switch = false;
 	bool saving = false;
 	std::string save_name = "";
+	std::vector<std::string> level_names = load_level_list();
 
-	load_level("stest", player, enemies, map);
+	load_level(level_names[0], player, enemies, map);
 	spawn_pellets(map, pellets);
 
     while (window.isOpen()) {
