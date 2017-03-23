@@ -1,5 +1,5 @@
 CFLAGS= -Wall -Wextra -Werror -g -std=c++11
-LFLAGS= -lsfml-graphics -lsfml-window -lsfml-system
+LFLAGS= -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system
 
 all: main.out
 
