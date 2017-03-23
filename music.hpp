@@ -1,7 +1,17 @@
 #pragma once
 
 #include <SFML/Audio.hpp>
+#include <string>
 #include <vector>
 
-std::vector<sf::Music> load_tracks();
-void update_track(std::vector<sf::Music> tracks);
+class MusicPlayer {
+public:
+	MusicPlayer();
+	void update();
+private:
+	sf::Clock clock;
+	std::vector<std::string> track_files;
+	sf::Music current;
+	unsigned int track_index;
+	float volume;
+};

@@ -2,22 +2,31 @@
 
 #include <fstream>
 
+const int seconds = 30;
 
-std::vector<sf::Music> load_tracks() {
+MusicPlayer::MusicPlayer() {
 	std::ifstream input("tracks");
-	std::vector<sf::Music> tracks;
 	while(!input.eof()) {
 		std::string filename;
 		getline(input, filename);
-		sf::Music track;
-		track.openFromFile(filename);
-		tracks.push_back(track);
+		track_files.push_back(filename);
 	}
-	return tracks;
+	input.close();
+	current.openFromFile(track_files[0]);
+	current.play();
+	track_index = 0;
+	volume = 100;
+	current.setLoop(true);
 }
 
-void update_track(std::vector<sf::Music> tracks) {
-	static unsigned int track_index = 0;
-	static unsigned int loops = 5;
-	static float fade_out = 0;
+void MusicPlayer::update() {
+	if(clock.getElapsedTime() > sf::seconds(seconds)) {
+		clock.restart();
+		track_index = (track_index + 1) % track_files.size();
+		current.stop();
+		current.openFromFile(track_files[track_index]);
+		current.play();
+	}
 }
+
+
