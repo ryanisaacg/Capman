@@ -175,6 +175,9 @@ int main() {
 			}
 		}
 
+		if(health == 0) {
+			load_level(level_names[level_index], player, enemies, map, health);
+		}
     }
     return 0;
 }
