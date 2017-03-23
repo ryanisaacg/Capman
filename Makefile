@@ -9,11 +9,14 @@ run: all
 clean: 
 	@rm *.o *.exe *.out
 
-main.out: main.cpp tilemap.o game-object.o render.o level.o
-	g++ $(CFLAGS) main.cpp render.o game-object.o tilemap.o level.o $(LFLAGS) -o main.out
+main.out: main.cpp tilemap.o game-object.o render.o level.o music.o
+	g++ $(CFLAGS) main.cpp render.o game-object.o tilemap.o level.o music.o $(LFLAGS) -o main.out
 
 game-object.o: game-object.cpp game-object.hpp tilemap.o
 	g++ $(CFLAGS) -c game-object.cpp -o game-object.o
+
+music.o: music.hpp music.cpp
+	g++ $(CFLAGS) -c music.cpp -o music.o
 
 render.o: render.hpp render.cpp game-object.o tilemap.o
 	g++ $(CFLAGS) -c render.cpp -o render.o	

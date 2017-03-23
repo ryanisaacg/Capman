@@ -9,6 +9,7 @@
 
 #include "game-object.hpp"
 #include "main.hpp"
+#include "music.hpp"
 #include "level.hpp"
 #include "render.hpp"
 #include "tilemap.hpp"
@@ -113,6 +114,7 @@ int main() {
 	bool saving = false;
 	std::string save_name = "";
 	std::vector<std::string> level_names = load_level_list();
+	std::vector<sf::Music> tracks = load_tracks();
 	unsigned int level_index = 0;
 
 	srand(time(nullptr));
@@ -178,6 +180,8 @@ int main() {
 		if(health == 0) {
 			load_level(level_names[level_index], player, enemies, map, health);
 		}
+
+		update_tracks(tracks);
     }
     return 0;
 }
