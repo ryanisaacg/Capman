@@ -79,12 +79,12 @@ static void update(Tilemap map, Object &player, std::vector<Object> &pellets, st
 			enemy.x = player.x;
 			enemy.xspeed = 0;
 		} else if(enemy.x < player.x) {
-			enemy.xspeed = 2;
+			enemy.xspeed = 0.75;
 		} else if(enemy.x > player.x) {
-			enemy.xspeed = -2;
+			enemy.xspeed = -0.75;
 		}
 		if(enemy.yspeed < 8 && enemy.y > player.y) {
-			enemy.yspeed = -4;
+			enemy.yspeed = -2;
 		}
 		enemy.fall(map, 0.25);
 		if(hurt_cooldown == 0 && enemy.collides(player)) {
