@@ -16,7 +16,8 @@
 
 sf::Text scoreDisplay;	
 int score = 0, health = 3, hurt_cooldown = 0, max_hurt_cooldown = 120;
-sf::Sound pickup, jump, hurt;
+sf::Sound pickupSound, jumpSound, hurtSound;
+sf::SoundBuffer pickup, jump, hurt;
 
 void spawn_pellets(Tilemap map, std::vector<Object> &pellets) {
 	for(int i = 0; i < map.getWidth(); i += 32) 
@@ -56,12 +57,12 @@ static void update(Tilemap map, Object &player, std::vector<Object> &pellets, st
 	//Jump
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) && player.supported(map)) {
 		player.yspeed = -12;
-		jump.play();
+		jumpSound.play();
 	}
 	//Update all of the pellets
 	for(auto pellet = pellets.begin(); pellet < pellets.end(); pellet++) {
 		if(pellet->collides(player)) {
-			pickup.play();
+			pickupSound.play();
 			ghostPellets.push_back(Object(sf::Color::Yellow, player.x, player.y, pellet->radius * 2));
 			pellet = pellets.erase(pellet);
 			score++;
@@ -95,7 +96,7 @@ static void update(Tilemap map, Object &player, std::vector<Object> &pellets, st
 		if(hurt_cooldown == 0 && enemy.collides(player)) {
 			hurt_cooldown = max_hurt_cooldown;
 			health -= 1;
-			hurt.play();
+			hurtSound.play();
 		}
 	}
 	if(hurt_cooldown > 0) hurt_cooldown--;
@@ -122,9 +123,12 @@ int main() {
 	MusicPlayer music;
 	unsigned int level_index = 0;
 
-	hurt.loadFromFile("hurt.wav");
+	hurt.loadFromFile("hit.wav");
 	jump.loadFromFile("jump.wav");
 	pickup.loadFromFile("pickup.wav");
+	hurtSound.setBuffer(hurt);
+	pickupSound.setBuffer(pickup);
+	jumpSound.setBuffer(jump);
 
 	srand(time(nullptr));
 
