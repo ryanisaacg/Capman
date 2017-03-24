@@ -1,10 +1,10 @@
-CFLAGS= -Wall -Wextra -Werror -g -std=c++11
-LFLAGS= -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system -Wl,-subsystem,windows
+CFLAGS:= -Wall -Wextra -Werror -g -std=c++11
+LFLAGS:= -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system 
 
 all: main.out
 
 run: all
-	./main.out
+	LD_LIBRARY_PATH=. ./main.out
 
 clean: 
 	@rm *.o *.exe *.out
