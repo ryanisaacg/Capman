@@ -5,3 +5,5 @@
 *.out
 *.ttf
 *.zip
+*.a
+*.so.*
