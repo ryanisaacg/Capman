@@ -16,8 +16,8 @@
 
 sf::Text scoreDisplay;	
 int score = 0, health = 3, hurt_cooldown = 0, max_hurt_cooldown = 120;
-sf::Sound pickupSound, jumpSound, hurtSound;
-sf::SoundBuffer pickup, jump, hurt;
+sf::Sound pickupSound, jumpSound, hurtSound, killSound;
+sf::SoundBuffer pickup, jump, hurt, kill;
 
 void spawn_pellets(Tilemap map, std::vector<Object> &pellets) {
 	for(int i = 0; i < map.getWidth(); i += 32) 
@@ -80,23 +80,28 @@ static void update(Tilemap map, Object &player, std::vector<Object> &pellets, st
 		}
 	}
 	//Move the enemies towards the player
-	for(auto &enemy : enemies) {
-		if(abs(enemy.x - player.x) < 2) {
-			enemy.x = player.x;
-			enemy.xspeed = 0;
-		} else if(enemy.x < player.x) {
-			enemy.xspeed = 0.75;
-		} else if(enemy.x > player.x) {
-			enemy.xspeed = -0.75;
+	for(auto enemy = enemies.begin(); enemy < enemies.end(); enemy++) {
+		if(abs(enemy->x - player.x) < 2) {
+			enemy->x = player.x;
+			enemy->xspeed = 0;
+		} else if(enemy->x < player.x) {
+			enemy->xspeed = 0.75;
+		} else if(enemy->x > player.x) {
+			enemy->xspeed = -0.75;
 		}
-		if(enemy.yspeed < 8 && enemy.y > player.y) {
-			enemy.yspeed = -2;
+		if(enemy->yspeed < 8 && enemy->y > player.y) {
+			enemy->yspeed = -2;
 		}
-		enemy.fall(map, 0.25);
-		if(hurt_cooldown == 0 && enemy.collides(player)) {
-			hurt_cooldown = max_hurt_cooldown;
-			health -= 1;
-			hurtSound.play();
+		enemy->fall(map, 0.25);
+		if(enemy->collides(player)) {
+			if(player.y < enemy->y - enemy->radius / 2) {
+				killSound.play();
+				enemy = enemies.erase(enemy);
+			} else if(hurt_cooldown == 0) {
+				hurt_cooldown = max_hurt_cooldown;
+				health -= 1;
+				hurtSound.play();
+			}
 		}
 	}
 	if(hurt_cooldown > 0) hurt_cooldown--;
@@ -126,9 +131,11 @@ int main() {
 	hurt.loadFromFile("hit.wav");
 	jump.loadFromFile("jump.wav");
 	pickup.loadFromFile("pickup.wav");
+	kill.loadFromFile("kill.wav");
 	hurtSound.setBuffer(hurt);
 	pickupSound.setBuffer(pickup);
 	jumpSound.setBuffer(jump);
+	killSound.setBuffer(kill);
 
 	srand(time(nullptr));
 
