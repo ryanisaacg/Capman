@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-#include "game-object.hpp"
+#include "object.hpp"
 #include "tilemap.hpp"
 
 void render_state(sf::RenderWindow &window, Tilemap map, Object player, std::vector<Object> enemies, 

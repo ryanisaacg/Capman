@@ -1,3 +1,5 @@
+#include "main.hpp"
+
 #include <cmath>
 #include <fstream>
 #include <iostream>
@@ -7,8 +9,7 @@
 #include <string>
 #include <vector>
 
-#include "game-object.hpp"
-#include "main.hpp"
+#include "object.hpp"
 #include "music.hpp"
 #include "level.hpp"
 #include "render.hpp"

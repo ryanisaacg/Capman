@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "game-object.hpp"
+#include "object.hpp"
 #include "tilemap.hpp"
 
 std::vector<std::string> load_level_list();

@@ -1,4 +1,4 @@
-#include "game-object.hpp"
+#include "object.hpp"
 
 #include <cmath>
 #include <iostream>
