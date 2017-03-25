@@ -84,7 +84,7 @@ bool Game::tick(sf::RenderWindow &window) {
 		load_level(level_names[level_index], player, enemies, map, health);
 	}
 	music.update();
-	return true;
+	return false;
 }
 
 void Game::spawn_pellets() {
