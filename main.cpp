@@ -15,6 +15,7 @@
 #include "level.hpp"
 #include "render.hpp"
 #include "screen.hpp"
+#include "start.hpp"
 #include "tilemap.hpp"
 
 
@@ -26,7 +27,9 @@ int main() {
 	window.setFramerateLimit(60);
 
 	std::vector<Screen*> screens;
-	Game game;
+	StartScreen start;
+	screens.push_back(&start);
+	Game game;	
 	screens.push_back(&game);
 	auto screen = screens.begin();
     
