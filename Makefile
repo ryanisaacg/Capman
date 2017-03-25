@@ -1,5 +1,5 @@
-CFLAGS:= -Wall -Wextra -Werror -g -std=c++11
-LFLAGS:= -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system 
+CFLAGS = $(EXTRA-CFLAGS) -Wall -Wextra -Werror -g -std=c++11
+LFLAGS = $(EXTRA-LFLAGS) -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system 
 
 all: main.out
 
@@ -24,5 +24,5 @@ tilemap.o: tilemap.cpp tilemap.hpp
 level.o: level.hpp level.cpp tilemap.o object.o
 	g++ $(CFLAGS) -c level.cpp -o level.o
 
-game.o: game.hpp game.cpp screen.hpp object.o music.o render.o tilemap.o level.o
+game.o: game.hpp game.cpp screen.hpp object.o music.o tilemap.o level.o
 	g++ $(CFLAGS) -c game.cpp -o game.o
