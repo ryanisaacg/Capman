@@ -19,7 +19,12 @@ private:
 	void edit(sf::Window &window, bool justPressedE);
 	void update();
 	void render_state(sf::RenderWindow &window);
+	sf::Texture load_texture(std::string filename);
 
+	//Images
+	std::vector<sf::Sprite> player_walk;
+	sf::Sprite player_jump, player_fall;
+	int player_frames = 0;
 	//Game simulation
 	Tilemap map;
 	Object player;

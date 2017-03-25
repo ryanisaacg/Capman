@@ -3,7 +3,15 @@
 #include "level.hpp"
 #include "main.hpp"
 
-Game::Game() : map(game_width, game_height, 32, 32), player(sf::Color::Cyan, 0, 0, 16) {
+sf::Texture player_walk_tex, player_fall_tex, player_jump_tex;
+
+sf::Texture Game::load_texture(std::string filename) {
+	sf::Texture tex;
+	tex.loadFromFile(filename);
+	return tex;
+}
+
+Game::Game() : map(game_width, game_height, 32, 32), player(sf::Color::Cyan, 0, 0, 13) {
 	font.loadFromFile("arial.ttf");
 	scoreDisplay = sf::Text("", font);
 	scoreDisplay.setOutlineColor(sf::Color::Yellow);
@@ -23,6 +31,16 @@ Game::Game() : map(game_width, game_height, 32, 32), player(sf::Color::Cyan, 0, 
 	pickupSound.setBuffer(pickup);
 	jumpSound.setBuffer(jump);
 	killSound.setBuffer(kill);
+
+	player_walk_tex = load_texture("walk.png");
+	player_jump_tex = load_texture("jump.png");
+	player_fall_tex = load_texture("fall.png");
+
+	player_jump = sf::Sprite(player_jump_tex);
+	player_fall = sf::Sprite(player_fall_tex);
+	for(int i = 0; i < 6; i++) {
+		player_walk.push_back(sf::Sprite(player_walk_tex, sf::IntRect(i * 32, 0, 32, 28)));
+	}
 }
 
 bool Game::tick(sf::RenderWindow &window) {
@@ -196,7 +214,21 @@ void Game::render_state(sf::RenderWindow &window) {
 		ghost.draw(window);
 	for(auto enemy : enemies)
 		enemy.draw(window);
-	player.draw(window);
+	sf::Sprite player_sprite;
+	if(player.yspeed == 0) {
+		player_sprite = player_walk[player_frames / 6];
+		if(player.xspeed != 0) {
+			player_frames = (player_frames + 1) % (player_walk.size() * 6);
+		}
+	} else if(player.yspeed < 0) {
+		player_sprite = player_jump;
+	} else {
+		player_sprite = player_fall;
+	}
+	player_sprite.setOrigin(13, 20);
+	player_sprite.setPosition(player.x, player.y);
+	player_sprite.setScale(-2 * player.flip_x + 1, 1);
+	window.draw(player_sprite);
 	window.setView(window.getDefaultView());
 	window.draw(scoreDisplay);
 	for(int i = 0; i < health; i++) {

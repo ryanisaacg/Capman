@@ -15,6 +15,7 @@ public:
 	void draw(sf::RenderWindow &window);
 	sf::Color color;
 	float x, y, radius, xspeed, yspeed, draw_scale;
+	bool flip_x;
 private:
 	bool can_move(Tilemap map, float xoff, float yoff);
 };

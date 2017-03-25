@@ -38,6 +38,11 @@ void Object::move(Tilemap map) {
 		xspeed = 0;
 		yspeed = 0;
 	}
+	if(xspeed > 0) {
+		flip_x = false;
+	} else if(xspeed < 0) {
+		flip_x = true;
+	}
 }
 
 bool Object::supported(Tilemap map) {
