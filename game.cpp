@@ -3,7 +3,7 @@
 #include "level.hpp"
 #include "main.hpp"
 
-sf::Texture player_walk_tex, player_fall_tex, player_jump_tex;
+sf::Texture player_walk_tex, player_fall_tex, player_jump_tex, enemy_tex;
 
 sf::Texture Game::load_texture(std::string filename) {
 	sf::Texture tex;
@@ -35,6 +35,8 @@ Game::Game() : map(game_width, game_height, 32, 32), player(sf::Color::Cyan, 0, 
 	player_walk_tex = load_texture("walk.png");
 	player_jump_tex = load_texture("jump.png");
 	player_fall_tex = load_texture("fall.png");
+
+	enemy_tex = load_texture("ghost.png");
 
 	player_jump = sf::Sprite(player_jump_tex);
 	player_fall = sf::Sprite(player_fall_tex);
@@ -208,12 +210,19 @@ void Game::render_state(sf::RenderWindow &window) {
 			}
 		}
 	}
-	for(auto pellet : pellets)
+	for(auto pellet : pellets) {
 		pellet.draw(window);
-	for(auto ghost : ghostPellets)
+	}
+	for(auto ghost : ghostPellets) {
 		ghost.draw(window);
-	for(auto enemy : enemies)
-		enemy.draw(window);
+	}
+	sf::Sprite tmp;
+	tmp.setTexture(enemy_tex);
+	tmp.setOrigin(16, 20);
+	for(auto enemy : enemies) {
+		tmp.setPosition(enemy.x, enemy.y);
+		window.draw(tmp);
+	}
 	sf::Sprite player_sprite;
 	if(player.yspeed == 0) {
 		player_sprite = player_walk[player_frames / 6];
