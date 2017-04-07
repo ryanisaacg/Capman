@@ -246,5 +246,14 @@ void Game::render_state(sf::RenderWindow &window) {
 		circ.setFillColor(sf::Color::Cyan);
 		window.draw(circ);
 	}
+	if(editing) {
+		auto mouse = sf::Mouse::getPosition();
+		int x = mouse.x / 32 * 32;
+		int y = mouse.y / 32 * 32;
+		sf::RectangleShape rect(sf::Vector2f(32, 32));
+		rect.setPosition(x, y);
+		rect.setFillColor(sf::Color(0, 128, 128, 96));
+		window.draw(rect);
+	}
 	window.display();
 }
