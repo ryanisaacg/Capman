@@ -9,7 +9,8 @@ MusicPlayer::MusicPlayer() {
 	while(!input.eof()) {
 		std::string filename;
 		getline(input, filename);
-		track_files.push_back(filename);
+		if(!input.eof())
+			track_files.push_back(filename);
 	}
 	input.close();
 	current.openFromFile(track_files[0]);
