@@ -224,7 +224,7 @@ void Game::render_state(sf::RenderWindow &window) {
 		window.draw(tmp);
 	}
 	sf::Sprite player_sprite;
-	if(player.yspeed == 0) {
+	if(player.supported(map)) {
 		player_sprite = player_walk[player_frames / 6];
 		if(player.xspeed != 0) {
 			player_frames = (player_frames + 1) % (player_walk.size() * 6);
