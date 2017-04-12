@@ -4,10 +4,10 @@
 #include <iostream>
 
 Object::Object(const Object &obj) : 
-	color(obj.color), x(obj.x), y(obj.y), radius(obj.radius), xspeed(obj.xspeed), yspeed(obj.yspeed), draw_scale(obj.draw_scale) {}
+	color(obj.color), x(obj.x), y(obj.y), radius(obj.radius), xspeed(obj.xspeed), yspeed(obj.yspeed), draw_scale(obj.draw_scale), flip_x(obj.flip_x) {}
 
 Object::Object(sf::Color color, float x, float y, float radius, float scale ) :
-	color(color), x(x), y(y), radius(radius), xspeed(0), yspeed(0), draw_scale(scale) {}
+	color(color), x(x), y(y), radius(radius), xspeed(0), yspeed(0), draw_scale(scale), flip_x(false) {}
 
 void Object::fall(Tilemap map, float gravity) {
 	yspeed += gravity;
